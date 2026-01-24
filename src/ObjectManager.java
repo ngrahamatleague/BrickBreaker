@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,17 +12,20 @@ public class ObjectManager implements KeyListener {
 	List<Brick> bricks;
 	Ball ball;
 	boolean win = false;
-	public ObjectManager() {
+	BrickBreaker brickBreaker;
+	Date timeAtStart;
+	public ObjectManager(BrickBreaker brickBreaker) {
 		
 		bricks = new ArrayList<Brick>();
 		ball = new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 20, 20);
+		this.brickBreaker = brickBreaker;
 		
 		for(int r = 0 ; r < 10; r++) {
 			for(int c = 0; c < 20; c++ ) {
 				bricks.add(new Brick(c*40,10+r*20, 40, 20));
 			}
 		}
-		
+		timeAtStart = new Date();
 	}
 	
 	public void draw(Graphics g) {
@@ -33,8 +37,16 @@ public class ObjectManager implements KeyListener {
 			g.setColor(Color.white);
 			g.drawString("All done", BrickBreaker.PANEL_WIDTH/2 - 30, BrickBreaker.PANEL_HEIGHT/2);
 		}
+		drawTimeElapsed(g);
 	}
 	
+
+	private void drawTimeElapsed(Graphics g) {
+		Date currentTime = new Date();
+		long difference = currentTime.getTime() - timeAtStart.getTime();
+		g.setColor(Color.white);
+		g.drawString("" + difference/1000.0, 20, BrickBreaker.PANEL_HEIGHT-20);
+	}
 
 	public void update() {
 		ball.update();
@@ -97,6 +109,9 @@ public class ObjectManager implements KeyListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			ball.down();
+		}
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			brickBreaker.restart();
 		}
 		
 	}

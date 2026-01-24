@@ -23,7 +23,7 @@ public class BrickBreaker extends JPanel implements ActionListener{
 		window.add(this);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		objMgr = new ObjectManager();
+		objMgr = new ObjectManager(this);
 		window.addKeyListener(objMgr);
 		window.pack();
 		window.setVisible(true);
@@ -32,6 +32,12 @@ public class BrickBreaker extends JPanel implements ActionListener{
 	public void startGame() {
 		
 		frameTimer.start();
+	}
+	
+	public void restart() {
+		window.removeKeyListener(objMgr);
+		objMgr = new ObjectManager(this);
+		window.addKeyListener(objMgr);
 	}
 
 	@Override

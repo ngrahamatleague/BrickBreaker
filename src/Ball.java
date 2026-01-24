@@ -12,6 +12,9 @@ public class Ball extends GameObject{
 	public Ball(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		xVel = random.nextInt(4)-2;
+		if(xVel == 0) {
+			xVel++;
+		}
 		yVel = -6;
 	}
 	

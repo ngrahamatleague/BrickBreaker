@@ -8,7 +8,7 @@ public class Brick extends GameObject{
 	Random random = new Random();
 	public Brick(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		color = new Color(random.nextInt(155) + 100, random.nextInt(155) + 100, random.nextInt(155) + 100,  random.nextInt(155) + 100);
+		color = new Color(random.nextInt(155) + 100, random.nextInt(155) + 100, random.nextInt(155) + 100);
 		
 	}
 	

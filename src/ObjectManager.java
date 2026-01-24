@@ -14,6 +14,7 @@ public class ObjectManager implements KeyListener {
 	boolean win = false;
 	BrickBreaker brickBreaker;
 	Date timeAtStart;
+	double winTime;
 	public ObjectManager(BrickBreaker brickBreaker) {
 		
 		bricks = new ArrayList<Brick>();
@@ -29,15 +30,17 @@ public class ObjectManager implements KeyListener {
 	}
 	
 	public void draw(Graphics g) {
-		for(Brick b : bricks) {
-			b.draw(g);
-		}
-		ball.draw(g);
+		
 		if(win) {
 			g.setColor(Color.white);
-			g.drawString("All done", BrickBreaker.PANEL_WIDTH/2 - 30, BrickBreaker.PANEL_HEIGHT/2);
+			g.drawString("All done in " + (winTime/1000.0) + " seconds", BrickBreaker.PANEL_WIDTH/2 - 40, BrickBreaker.PANEL_HEIGHT/2);
+		}else {
+			for(Brick b : bricks) {
+				b.draw(g);
+			}
+			ball.draw(g);
+			drawTimeElapsed(g);
 		}
-		drawTimeElapsed(g);
 	}
 	
 
@@ -58,6 +61,9 @@ public class ObjectManager implements KeyListener {
 	private void checkWin() {
 		if(bricks.size() == 0) {
 			win = true;
+			Date currentTime = new Date();
+			long difference = currentTime.getTime() - timeAtStart.getTime();
+			winTime = difference;
 		}
 		
 	}

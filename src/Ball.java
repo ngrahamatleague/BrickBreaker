@@ -11,11 +11,15 @@ public class Ball extends GameObject{
 	
 	public Ball(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		xVel = random.nextInt(4)-2;
+		xVel = random.nextInt(8)-4;
 		if(xVel == 0) {
-			xVel++;
+			if(random.nextBoolean()) {
+				xVel+=2;
+			}else {
+				xVel-=2;
+			}
 		}
-		yVel = -6;
+		yVel = -8;
 	}
 	
 	public void draw(Graphics g) {

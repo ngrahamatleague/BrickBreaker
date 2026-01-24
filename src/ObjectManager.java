@@ -55,6 +55,7 @@ public class ObjectManager implements KeyListener {
 		ball.update();
 		checkCollisions();
 		purgeDeadBricks();
+		if(!win)
 		checkWin();
 	}
 

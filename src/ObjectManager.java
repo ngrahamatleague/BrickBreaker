@@ -23,7 +23,7 @@ public class ObjectManager implements KeyListener {
 		
 		for(int r = 0 ; r < 10; r++) {
 			for(int c = 0; c < 20; c++ ) {
-				bricks.add(new Brick(c*40,10+r*20, 40, 20));
+				bricks.add(new Brick(c*40,100+r*20, 40, 20));
 			}
 		}
 		timeAtStart = new Date();

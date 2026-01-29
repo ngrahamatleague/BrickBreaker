@@ -88,8 +88,36 @@ public class ObjectManager implements KeyListener {
 
 		for(Brick b : bricks) {
 			if(b.isAlive && b.collisionBox.intersects(ball.collisionBox)) {
+				// From left
+				boolean horizontal = true;
+				if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
+						b.collisionBox.getMinX(), b.collisionBox.getMaxY())) {
+					System.out.println("from left");
+					horizontal = true;
+				}
+				
+				//From right
+				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMaxX(), b.collisionBox.getMinY(), 
+						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
+					System.out.println("from right");
+					horizontal = true;
+				}
+				
+				//From above
+				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
+						b.collisionBox.getMaxX(), b.collisionBox.getMinY())) {
+					System.out.println("from top");
+					horizontal = false;
+				}
+				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMaxY(), 
+						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
+					System.out.println("from bottom");
+					horizontal = false;
+				}
+				
+				//From below
 				b.isAlive = false;
-				ball.hit();
+				ball.hit(horizontal);
 				break;
 			}
 		}

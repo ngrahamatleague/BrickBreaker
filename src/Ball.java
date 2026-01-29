@@ -55,9 +55,12 @@ public class Ball extends GameObject{
 		
 	}
 
-	public void hit() {
-		yVel = -yVel;
-		
+	public void hit(boolean horizontal) {
+		if(horizontal) {
+			xVel = -xVel;
+		}else {
+			yVel = -yVel;
+		}
 	}
 
 	public void left() {

@@ -19,7 +19,7 @@ public class Ball extends GameObject{
 				xVel-=2;
 			}
 		}
-		yVel = -8;
+		yVel = -1;
 	}
 	
 	public void draw(Graphics g) {

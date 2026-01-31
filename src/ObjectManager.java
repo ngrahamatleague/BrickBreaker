@@ -18,7 +18,7 @@ public class ObjectManager implements KeyListener {
 	public ObjectManager(BrickBreaker brickBreaker) {
 		
 		bricks = new ArrayList<Brick>();
-		ball = new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 20, 20);
+		ball = new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 4, 4);
 		this.brickBreaker = brickBreaker;
 		
 		for(int r = 0 ; r < 10; r++) {
@@ -54,7 +54,7 @@ public class ObjectManager implements KeyListener {
 	public void update() {
 		ball.update();
 		checkCollisions();
-		purgeDeadBricks();
+		
 		if(!win)
 		checkWin();
 	}
@@ -86,7 +86,8 @@ public class ObjectManager implements KeyListener {
 
 	private void checkCollisions() {
 
-		for(Brick b : bricks) {
+		for(int i = 0 ; i < bricks.size(); i++) {
+			Brick b = bricks.get(i);
 			if(b.isAlive && b.collisionBox.intersects(ball.collisionBox)) {
 				// From left
 				boolean horizontal = true;
@@ -94,33 +95,44 @@ public class ObjectManager implements KeyListener {
 						b.collisionBox.getMinX(), b.collisionBox.getMaxY())) {
 					System.out.println("from left");
 					horizontal = true;
+					ball.x = (int)b.collisionBox.getMinX();
+					ball.xVel = -ball.xVel;
+					
 				}
 				
 				//From right
-				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMaxX(), b.collisionBox.getMinY(), 
+				if(ball.collisionBox.intersectsLine(b.collisionBox.getMaxX(), b.collisionBox.getMinY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
 					System.out.println("from right");
 					horizontal = true;
+					ball.x = (int)b.collisionBox.getMaxX();
+					ball.xVel = -ball.xVel;
 				}
 				
 				//From above
-				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
+				if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMinY())) {
 					System.out.println("from top");
 					horizontal = false;
+					ball.y = (int)b.collisionBox.getMinY();
+					ball.yVel = -ball.yVel;
 				}
-				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMaxY(), 
+				if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMaxY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
 					System.out.println("from bottom");
 					horizontal = false;
+					ball.y = (int)b.collisionBox.getMaxY();
+					ball.yVel = -ball.yVel;
 				}
 				
 				//From below
 				b.isAlive = false;
-				ball.hit(horizontal);
-				break;
+				bricks.remove(i);
+				//ball.hit(horizontal);
+				//break;
 			}
 		}
+	//	purgeDeadBricks();
 		
 	}
 

@@ -15,10 +15,12 @@ public class BrickBreaker extends JPanel implements ActionListener{
 	
 	JFrame window;
 	Timer frameTimer;
+	Timer updateTimer;
 	ObjectManager objMgr;
 	
 	public void setup() {
 		frameTimer = new Timer(1000/30, this);
+		updateTimer = new Timer(1000/120, this);
 		window = new JFrame();
 		window.add(this);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,6 +34,7 @@ public class BrickBreaker extends JPanel implements ActionListener{
 	public void startGame() {
 		
 		frameTimer.start();
+		updateTimer.start();
 	}
 	
 	public void restart() {
@@ -51,8 +54,11 @@ public class BrickBreaker extends JPanel implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		repaint();
-		update();
+		if(e.getSource() == frameTimer) {
+			repaint();
+		}else if(e.getSource() == updateTimer) {
+			update();
+		}
 	}
 
 	private void update() {

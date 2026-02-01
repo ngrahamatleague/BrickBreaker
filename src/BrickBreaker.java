@@ -18,8 +18,8 @@ public class BrickBreaker extends JPanel implements ActionListener{
 	Timer updateTimer;
 	ObjectManager objMgr;
 	
-	public void setup() {
-		frameTimer = new Timer(1000/30, this);
+	public void setup(int x, int y) {
+		frameTimer = new Timer(1000/60, this);
 		updateTimer = new Timer(1000/120, this);
 		window = new JFrame();
 		window.add(this);
@@ -28,6 +28,7 @@ public class BrickBreaker extends JPanel implements ActionListener{
 		objMgr = new ObjectManager(this);
 		window.addKeyListener(objMgr);
 		window.pack();
+		window.setLocation(x, y);
 		window.setVisible(true);
 	}
 

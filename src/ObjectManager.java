@@ -11,7 +11,7 @@ public class ObjectManager implements KeyListener {
 
 	List<Brick> bricks;
 	List<Ball> balls;
-
+	static int numUnbreakable = 0;
 	boolean win = false;
 	BrickBreaker brickBreaker;
 	Date timeAtStart;
@@ -74,7 +74,7 @@ public class ObjectManager implements KeyListener {
 	}
 
 	private void checkWin() {
-		if(bricks.size() == 0) {
+		if(bricks.size() == numUnbreakable) {
 			win = true;
 			Date currentTime = new Date();
 			long difference = currentTime.getTime() - timeAtStart.getTime();

@@ -14,8 +14,10 @@ public class Brick extends GameObject{
 		this.i=i;
 		breakable = random.nextInt(10) != 0;
 		if(breakable) {
+		
 			color = new Color(random.nextInt(155) + 100, random.nextInt(155) + 100, random.nextInt(155) + 100);
 		}else {
+			ObjectManager.numUnbreakable++;
 			color = new Color(150,150,150);
 		}
 		

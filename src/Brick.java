@@ -7,10 +7,18 @@ public class Brick extends GameObject{
 	Color color;
 	Random random = new Random();
 	int i;
+	boolean breakable;
 	public Brick(int x, int y, int width, int height, int i) {
 		super(x, y, width, height);
-		color = new Color(random.nextInt(155) + 100, random.nextInt(155) + 100, random.nextInt(155) + 100);
+	
 		this.i=i;
+		breakable = random.nextInt(10) != 0;
+		if(breakable) {
+			color = new Color(random.nextInt(155) + 100, random.nextInt(155) + 100, random.nextInt(155) + 100);
+		}else {
+			color = new Color(150,150,150);
+		}
+		
 	}
 	
 	public void draw(Graphics g) {

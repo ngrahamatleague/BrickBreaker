@@ -9,7 +9,7 @@ public class Start {
 //		BrickBreaker bb2 = new BrickBreaker();
 //		bb2.setup(850, 0);
 //		bb2.startGame();
-//		
+		
 //		BrickBreaker bb3 = new BrickBreaker();
 //		bb3.setup(0, 600);
 //		bb3.startGame();

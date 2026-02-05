@@ -10,17 +10,23 @@ import java.util.List;
 public class ObjectManager implements KeyListener {
 
 	List<Brick> bricks;
-	Ball ball;
+	List<Ball> balls;
+
 	boolean win = false;
 	BrickBreaker brickBreaker;
 	Date timeAtStart;
 	double winTime;
 	public ObjectManager(BrickBreaker brickBreaker) {
-		
+		balls = new ArrayList<Ball>();
 		bricks = new ArrayList<Brick>();
-		ball = new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 4, 4);
-		this.brickBreaker = brickBreaker;
+		for(int i = 0; i < 24; i++) {
+			balls.add( new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 4, 4) );
+		}
+		//ball = new Ball(BrickBreaker.PANEL_WIDTH/2, BrickBreaker.PANEL_HEIGHT - 40, 4, 4);
 		
+		this.brickBreaker = brickBreaker;
+		//TODO: make unbreakable bricks gen in lines or random length and direction
+		//TODO: run simulation at fast speed (no drawing) to see if possible to win
 		for(int r = 0 ; r < 10; r++) {
 			for(int c = 0; c < 20; c++ ) {
 				bricks.add(new Brick(c*40,100+r*20, 40, 20, c + r*10));
@@ -38,7 +44,10 @@ public class ObjectManager implements KeyListener {
 			for(Brick b : bricks) {
 				b.draw(g);
 			}
-			ball.draw(g);
+			for(Ball b : balls) {
+				b.draw(g);
+			}
+		//	ball.draw(g);
 			drawTimeElapsed(g);
 		}
 	}
@@ -52,10 +61,14 @@ public class ObjectManager implements KeyListener {
 	}
 
 	public void update() {
-		
-		checkCollisions();
+		for(Ball b : balls) {
+			checkCollisions(b);
+		}
 		purgeDeadBricks();
-		ball.update();
+		for(Ball b : balls) {
+			b.update();
+		}
+		
 		if(!win)
 		checkWin();
 	}
@@ -85,24 +98,25 @@ public class ObjectManager implements KeyListener {
 		}
 	}
 
-	private void checkCollisions() {
+	private void checkCollisions(Ball ball) {
 
 		for(int i = bricks.size()-1 ; i >= 0; i--) {
 			Brick b = bricks.get(i);
 			if(b.isAlive && b.collisionBox.intersects(ball.collisionBox)) {
 				// From left
-		
+				if(b.breakable) {
 				b.isAlive = false;
+				}
 				if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMaxY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
-					System.out.println("from bottom");
+					//System.out.println("from bottom");
 					
 					//ball.y = (int)b.collisionBox.getMaxY();
 					ball.yVel = -ball.yVel;
 				}
 				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
 						b.collisionBox.getMinX(), b.collisionBox.getMaxY())) {
-					System.out.println("from left");
+					//System.out.println("from left");
 				
 					//ball.x = (int)b.collisionBox.getMinX();
 					ball.xVel = -ball.xVel;
@@ -112,7 +126,7 @@ public class ObjectManager implements KeyListener {
 				//From right
 				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMaxX(), b.collisionBox.getMinY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMaxY())) {
-					System.out.println("from right");
+					//System.out.println("from right");
 				
 					//ball.x = (int)b.collisionBox.getMaxX();
 					ball.xVel = -ball.xVel;
@@ -121,7 +135,7 @@ public class ObjectManager implements KeyListener {
 				//From above
 				else if(ball.collisionBox.intersectsLine(b.collisionBox.getMinX(), b.collisionBox.getMinY(), 
 						b.collisionBox.getMaxX(), b.collisionBox.getMinY())) {
-					System.out.println("from top");
+					//System.out.println("from top");
 					
 					//ball.y = (int)b.collisionBox.getMinY();
 					ball.yVel = -ball.yVel;
@@ -150,15 +164,19 @@ public class ObjectManager implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			for(Ball ball : balls)
 			ball.left();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			for(Ball ball : balls)
 			ball.right();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			for(Ball ball : balls)
 			ball.up();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			for(Ball ball : balls)
 			ball.down();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {

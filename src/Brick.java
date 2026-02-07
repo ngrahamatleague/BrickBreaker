@@ -27,7 +27,7 @@ public class Brick extends GameObject{
 		g.setColor(color);
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.white);
-		g.drawString("" + i, x, y+10);
+		g.drawRect(x, y, width, height);
 	}
 	
 
